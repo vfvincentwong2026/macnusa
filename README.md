@@ -1,40 +1,36 @@
+# MacNusa 🌏
 
-MacNusa 🌏
-MacNusa is a cross-border orchestration layer for Mac Mini compute clusters. Instead of pretending high-latency nodes across China and Indonesia form one cluster, MacNusa keeps regional clusters independent, routes jobs by policy, and lets only approved artifacts cross the border.
+> **MacNusa** is a cross-border orchestration layer for Mac Mini compute clusters. Instead of pretending high-latency nodes across China and Indonesia form one cluster, MacNusa keeps regional clusters independent, routes jobs by policy, and lets only approved artifacts cross the border.
 
-https://img.shields.io/badge/License-Apache_2.0-blue.svg
-https://img.shields.io/badge/python-3.10+-blue.svg
-https://img.shields.io/badge/platform-macOS%20%7C%20Apple%20Silicon-lightgrey.svg
-https://img.shields.io/badge/PRs-welcome-brightgreen.svg
+<p align="left">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python 3.10+"></a>
+  <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Apple%20Silicon-lightgrey.svg" alt="Platform">
+  <a href="https://github.com/vfvincentwong2026/macnusa/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+</p>
 
-MacNusa 是一个专为中国与印尼跨境场景设计的 Mac Mini 算力集群编排层。它不试图用高延迟网络（>100ms）将两地节点强行绑定为单一逻辑集群，而是让两地的集群各自独立运行，通过策略路由调度任务，并严格限制只有合规的模型产物（如权重、聚合结果）才能跨境传输。
+**MacNusa** 是一个专为中国与印尼跨境场景设计的 Mac Mini 算力集群编排层。它不试图用高延迟网络（>100ms）将两地节点强行绑定为单一逻辑集群，而是**让两地的集群各自独立运行**，通过策略路由调度任务，并严格限制只有合规的模型产物（如权重、聚合结果）才能跨境传输。
 
-🎯 Background & Why MacNusa?
-Existing distributed frameworks (like exo, MacFleet) work beautifully in LANs or low-latency environments. However, cross-border setups face two hard constraints:
+## 🎯 Background
 
-Network Latency: Cross-border inference/training across China and Indonesia suffers from 100ms+ latency and packet loss. Treating them as one cluster destroys performance.
+Existing distributed frameworks (like `exo`, `MacFleet`) work beautifully in LANs. However, cross-border setups face two hard constraints:
+1. **Network Latency**: Cross-border traffic suffers from 100ms+ latency and packet loss.
+2. **Data Compliance**: Regulations (e.g., Indonesia's PDP Law, China's PIPL) restrict personal data from crossing borders freely.
 
-Data Compliance: Data egress regulations (e.g., Indonesia's PDP Law, China's PIPL) restrict personal data from crossing borders freely.
+**MacNusa fills this gap** by acting as an intelligent layer *above* the distributed engines. It keeps local inference local, and only synchronizes what is legally and technically safe.
 
-MacNusa fills this gap by acting as an intelligent layer above the distributed engines. It keeps local inference local, and only synchronizes what is legally and technically safe.
+## ✨ Key Features
 
-✨ Key Features
-🌍 Region Registry: Register and monitor nodes across different jurisdictions (e.g., Jakarta, Shanghai) with network quality and compute availability tags.
+- 🌍 **Region Registry**: Register and monitor nodes across different jurisdictions.
+- 🛡️ **Policy Gate**: A built-in data classification gateway for compliance.
+- 🧠 **Task Scheduler**: Routes jobs to the most suitable region based on latency and policy.
+- 🔄 **Artifact Sync**: Syncs compressed model weights—**never raw personal data**.
+- 🔌 **Cluster Adapter**: Pluggable architecture for `exo`, `MacFleet`, `MLX`, etc.
+- 🕸️ **Mesh Ops**: Integration with Tailscale/WireGuard for secure networking.
 
-🛡️ Policy Gate: A built-in data classification gateway. Decides whether a job or payload is allowed to cross borders based on compliance rules.
+## 🏗️ Architecture
 
-🧠 Task Scheduler: Routes inference, batch processing, and training tasks to the most suitable region. Supports asynchronous task queuing.
-
-🔄 Artifact Sync: Compresses and syncs model weights, configurations, and aggregated results—never raw personal data.
-
-🔌 Cluster Adapter: Pluggable architecture. Works with existing tools like exo, MacFleet, MLX, or Ray.
-
-🕸️ Mesh Ops: Built-in integration with Tailscale/WireGuard for secure, zero-config remote management across borders.
-
-📊 Audit Log: Records cross-border tasks, data flows, and policy hits for compliance auditing.
-
-🏗️ Architecture
-text
+```text
 [ Indonesia Region ]                                  [ China Region ]
 +-------------------------+                       +-------------------------+
 |  Mac Mini Node (M4)     |   (Tailscale Mesh)    |  Mac Mini Node (M4)     |
