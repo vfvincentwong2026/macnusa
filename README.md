@@ -1,5 +1,4 @@
-# macnusa
-A cross-border orchestration layer for Mac Mini compute clusters. Keeps regional clusters independent, routes tasks by policy, and syncs only approved artifacts.
+
 MacNusa 🌏
 MacNusa is a cross-border orchestration layer for Mac Mini compute clusters. Instead of pretending high-latency nodes across China and Indonesia form one cluster, MacNusa keeps regional clusters independent, routes jobs by policy, and lets only approved artifacts cross the border.
 
